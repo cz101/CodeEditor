@@ -3,7 +3,7 @@ import prettier from 'prettier'
 import parser from 'prettier/parser-babel'
 
 import {useRef} from "react"
-import Editor ,{OnMount,OnChange}from "@monaco-editor/react"
+import MonacoEditor ,{OnMount,OnChange}from "@monaco-editor/react"
 
 interface CodeEditorProps {
   pass(value: string): void;
@@ -23,37 +23,36 @@ const CodeEditor: React.FC<CodeEditorProps>=({pass}) => {
           if(value)
           pass(value);
       }
-    const onFormatClick = () => {
-    // get current value from editor
-    const unformatted = editorRef.current.getModel().getValue();
+    // const onFormatClick = () => {
+    // // get current value from editor
+    // const unformatted = editorRef.current.getModel().getValue();
 
-    // format that value
-    const formatted = prettier
-        .format(unformatted, {
-        parser: 'babel',
-        plugins: [parser],
-        useTabs: false,
-        semi: true,
-        singleQuote: true,
-        })
-        .replace(/\n$/, '');
+    // // format that value
+    // const formatted = prettier
+    //     .format(unformatted, {
+    //     parser: 'babel',
+    //     plugins: [parser],
+    //     semi: true,
+    //     singleQuote: true,
+    //     })
+    //     .replace(/\n$/, '');
 
-    // set the formatted value back in the editor
-    editorRef.current.setValue(formatted);
-    };
+    // // set the formatted value back in the editor
+    // editorRef.current.setValue(formatted);
+    // };
       
 
     return (     
       <div className="editor-wrapper">
-              <button
+              {/* <button
                     className="button button-format is-primary is-small"
                     onClick={onFormatClick}
                 >
                     Format
-                </button>
-            <Editor
+                </button> */}
+            <MonacoEditor
                 theme="vs-dark"
-                height="500px"
+                height="100%"
                 defaultLanguage="javascript"
                 defaultValue="// some comment"
                 onMount={handleEditorDidMount}

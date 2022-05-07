@@ -1,48 +1,50 @@
-import React  from "react"
-//import {PropsWithChildren} from 'react'
-import {useEffect ,useRef} from "react";
+import './preview.css';
+import { useRef, useEffect } from 'react';
 
-interface PreviewProps{
-    code : string;
+interface PreviewProps {
+  code: string;
 }
-
 
 const html = `
     <html>
-    <head></head>
-    <body>
+      <head>
+      <style>html{background-color:white}</style>
+      </head>
+      <body>
         <div id="root"></div>
         <script>
-        window.addEventListener('message', (event) => {
+          window.addEventListener('message', (event) => {
             try {
-            eval(event.data);
+              eval(event.data);
             } catch (err) {
-            const root = document.querySelector('#root');
-            root.innerHTML = '<div style="color: red;"><h4>Runtime Error</h4>' + err + '</div>';
-            console.error(err);
+              const root = document.querySelector('#root');
+              root.innerHTML = '<div style="color: red;"><h4>Runtime Error</h4>' + err + '</div>';
+              console.error(err);
             }
-        }, false);
+          }, false);
         </script>
-    </body>
-    </html>`;
+      </body>
+    </html>
+  `;
 
-const Preview :React.FC<PreviewProps> =({code})=>{
+const Preview: React.FC<PreviewProps> = ({ code }) => {
+  const iframe = useRef<any>();
 
-    const iframe = useRef<any>()
+  useEffect(() => {
+    iframe.current.srcdoc = html;
+    iframe.current.contentWindow.postMessage(code, '*');
+  }, [code]);
 
-    useEffect (()=>{       
-            iframe.current.srcdoc = html;
-            iframe.current.contentWindow.postMessage(code ,'*')
-
-    },[code])  
-    return <iframe
-                title = "code preview" 
-                ref={iframe} 
-                sandbox='allow-scripts' 
-                srcDoc={html}
-    />
+  return (
+    <div className="preview-wrapper">
+      <iframe
+        title="preview"
+        ref={iframe}
+        sandbox="allow-scripts"
+        srcDoc={html}
+      />
+    </div>
+  );
 };
 
-
-
-export default Preview
+export default Preview;
