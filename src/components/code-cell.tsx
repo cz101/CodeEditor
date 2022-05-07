@@ -1,4 +1,6 @@
-import { useState} from "react";
+import './code-editor.css'
+
+import { useEffect, useState} from "react";
 import CodeEditor from '../components/code-editor'
 import Preview from '../components/preview';
 import bundle from '../bundle';
@@ -9,24 +11,43 @@ const CodeCell =()=>{
 
     const [input, setInput] = useState('')
     const [code ,setCode] =useState('')
+    /*auto compilie and output the results with timer setup */
+    // useEffect(()=>{
+    //     const timer= setTimeout(async ()=>{
+    //                         const output =  await bundle(input);
+    //                         setCode(output)   
+    //                     },1500)
+    //     return()=>{
+    //             clearTimeout(timer)
+    //             }                 
+    //   },[input])
 
-    const onClick =async() =>{
+      const onClick =async() =>{
         const output =  await bundle(input);
         setCode(output)     
-    }
+    }              
+   
 
     return (
-        <Resizeable direction="vertical">
-            <div style={{height: '100%', display: 'flex', flexDirection: 'row'}}>    
-                <Resizeable direction="horizontal">
-                    <CodeEditor pass={(value) => setInput(value)}/>
-                    {/* <textarea value={input} onChange={(e)=>{setInput(e.target.value )}}></textarea> */}        
-                    {/* <button onClick={onClick} >submit</button> */}
-                </Resizeable>    
-                 <Preview code={code}/> 
-
-            </div>      
-        </Resizeable>      
+        <>
+      
+        <div>
+                    <Resizeable direction="vertical">
+                <div style={{height: '100%', display: 'flex', flexDirection: 'row'}}>    
+                    <Resizeable direction="horizontal">
+                        <CodeEditor pass={(value) => setInput(value)}/>
+                        {/* <textarea value={input} onChange={(e)=>{setInput(e.target.value )}}></textarea> */}        
+                        {/* <button onClick={onClick} >submit</button> */}
+                    </Resizeable>    
+                    <Preview code={code}/> 
+                </div>      
+            </Resizeable>    
+        </div>
+        <div className='divstyle'>
+        <button  onClick={onClick} >submit</button>
+        </div>
+                   
+       </>
         )
          
 }

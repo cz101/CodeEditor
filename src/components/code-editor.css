@@ -16,3 +16,8 @@
 .editor-wrapper:hover .button-format {
   opacity: 1;
 }
+
+.divstyle{
+  margin-top: 20px;
+  margin-left: 5px;
+}

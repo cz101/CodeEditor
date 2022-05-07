@@ -31,6 +31,8 @@ const Resizable: React.FC<ResizableProps> = ({ direction, children }) => {
     timer = setTimeout(()=>{
       setinnerHight(window.innerHeight) 
       setinnerWidth(window.innerWidth)
+      if (window.innerWidth*0.75 <width) // to track max size of innterwindow width 
+        {setWidth(window.innerWidth*0.75)}
     },100)
       
     }
