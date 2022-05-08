@@ -10,12 +10,13 @@ const CodeCell =()=>{
 
 
     const [input, setInput] = useState('')
+    const [err, setErr] = useState('')
     const [code ,setCode] =useState('')
     /*auto compilie and output the results with timer setup */
     // useEffect(()=>{
     //     const timer= setTimeout(async ()=>{
     //                         const output =  await bundle(input);
-    //                         setCode(output)   
+    //                         setCode(output.code)   
     //                     },1500)
     //     return()=>{
     //             clearTimeout(timer)
@@ -24,7 +25,8 @@ const CodeCell =()=>{
 
       const onClick =async() =>{
         const output =  await bundle(input);
-        setCode(output)     
+        setCode(output.code)     
+        setErr(output.err)
     }              
    
 
@@ -39,7 +41,7 @@ const CodeCell =()=>{
                         {/* <textarea value={input} onChange={(e)=>{setInput(e.target.value )}}></textarea> */}        
                         {/* <button onClick={onClick} >submit</button> */}
                     </Resizeable>    
-                    <Preview code={code}/> 
+                    <Preview code={code} bundleError={err}/> 
                 </div>      
             </Resizeable>    
         </div>
