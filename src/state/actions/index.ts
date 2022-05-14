@@ -31,5 +31,17 @@ export interface InsetCellBeforeAction{
     };
 }
 
-export type Action= MoveCellAction | DeletCellAction | UpdateCellAction |InsetCellBeforeAction;
+export interface InsetCellAfterAction{
+    type:ActionType.INSERT_CELL_AFTER;
+    payload:{
+        id:string | null;
+        type: 'code' | 'text';
+    };
+}
+
+export type Action= MoveCellAction 
+                    | DeletCellAction 
+                    | UpdateCellAction 
+                    | InsetCellBeforeAction
+                    | InsetCellAfterAction ;
 

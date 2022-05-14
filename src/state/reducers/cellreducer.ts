@@ -2,7 +2,6 @@ import produce from 'immer';
 import { ActionType } from '../action-types';
 import { Action } from '../actions';
 import { Cell } from '../cell';
-//import {ReduxState, ReduxAction, ReduxActionType} from 'redux'
 import {Reducer} from 'redux'
 
 interface CellsState {
@@ -47,7 +46,27 @@ const reducer = produce((state: CellsState = initialState, action: Action) => {
       state.order[targetIndex] = action.payload.id;
 
       return state;
-    case ActionType.INSERT_CELL_BEFORE:
+    // case ActionType.INSERT_CELL_BEFORE:
+    //   const cell: Cell = {
+    //     content: '',
+    //     type: action.payload.type,
+    //     id: randomId(),
+    //   };
+
+    //   state.data[cell.id] = cell;
+
+    //   const foundIndex = state.order.findIndex(
+    //     (id) => id === action.payload.id
+    //   );
+
+    //   if (foundIndex < 0) {
+    //     state.order.push(cell.id);
+    //   } else {
+    //     state.order.splice(foundIndex, 0, cell.id);
+    //   }
+    //   return state;
+
+    case ActionType.INSERT_CELL_AFTER:
       const cell: Cell = {
         content: '',
         type: action.payload.type,
@@ -61,13 +80,13 @@ const reducer = produce((state: CellsState = initialState, action: Action) => {
       );
 
       if (foundIndex < 0) {
-        state.order.push(cell.id);
+        state.order.unshift(cell.id);
       } else {
-        state.order.splice(foundIndex, 0, cell.id);
+        state.order.splice(foundIndex+1 , 0, cell.id);
       }
-      return state;
+        return state;  
 
-      default:
+    default:
          return state
   }
 },initialState);

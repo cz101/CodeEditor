@@ -3,26 +3,33 @@ import React,{useState,useEffect,useRef} from "react";
 
 import MDEditor from '@uiw/react-md-editor'
 
+import {Cell} from '../state'
+import {useAction} from '../hooks/use-actions'
+import { updateCell } from '../state/action-creators';
+
 // interface TextEditorpPros{
 
 // }
+interface TextEditorpPros{
+
+    cell: Cell
+}
 
 
+const TextEditor : React.FC <TextEditorpPros>=({cell})=>{
 
-const TextEditor : React.FC =()=>{
-
-    const [value, setValue] = useState("Enter the Context")
+   // const [value, setValue] = useState("Enter the Context")
     const [editing, setEditing] =useState(false)
     const ref = useRef<HTMLDivElement |null>(null)
+    const {updateCell} = useAction()
+
 
     useEffect(()=>{
         const listener =(event :MouseEvent)=>{
-
             if(ref.current && event.target && ref.current.contains(event.target as Node) )
                 { 
                     //setEditing(true)
-                    return
-                
+                    return                
                 }
             setEditing(false)
         }
@@ -33,18 +40,17 @@ const TextEditor : React.FC =()=>{
             document.removeEventListener('click',listener,{capture : true})
         }
     },[])
-    const onChange =(value = "")=>{ setValue(value)}
+
+   // const onChange ={(cell.content = "")=>{ updateCell(cell.id,cell.content)}}
 
     if(editing)
     {
-        return (     
+        return (      
         <div className='text-editor' ref={ref}>
               <MDEditor 
-                value={value}
-                // onChange={(value = "") => {
-                //     setValue(value);
-                //   }}
-                onChange={onChange}/>
+                value={cell.content} onChange={(v)=>{ updateCell(cell.id, v||"")}}/>
+               
+                
 
         </div>)
     }
@@ -52,7 +58,7 @@ const TextEditor : React.FC =()=>{
     return(
         <div  className='text-editor card' onClick={()=>{setEditing(true)}}>
             <div className='card-content'>
-                 <MDEditor.Markdown source={value}/>
+                 <MDEditor.Markdown source={cell.content || "Enter the Context"}/>
             </div>   
          
         </div>

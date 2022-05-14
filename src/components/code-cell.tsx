@@ -1,17 +1,26 @@
 import './code-editor.css'
 
-import { useEffect, useState} from "react";
+import React, { useEffect, useState} from "react";
 import CodeEditor from '../components/code-editor'
 import Preview from '../components/preview';
 import bundle from '../bundle';
 import Resizeable from "./resizeable";
+import {Cell} from '../state'
+import {useAction} from '../hooks/use-actions'
 
-const CodeCell =()=>{
+interface CodeCellProps{
+
+    cell: Cell
+}
+
+const CodeCell :React.FC <CodeCellProps> =({cell})=>{
 
 
-    const [input, setInput] = useState('')
+    const [input, setInput] = useState('') // will remove by passing the cell 
     const [err, setErr] = useState('')
     const [code ,setCode] =useState('')
+
+    const {updateCell} = useAction()
     /*auto compilie and output the results with timer setup */
     // useEffect(()=>{
     //     const timer= setTimeout(async ()=>{
@@ -24,7 +33,8 @@ const CodeCell =()=>{
     //   },[input])
 
       const onClick =async() =>{
-        const output =  await bundle(input);
+          console.log(cell.content)
+        const output =  await bundle(cell.content);
         setCode(output.code)     
         setErr(output.err)
     }              
@@ -34,10 +44,11 @@ const CodeCell =()=>{
         <>
       
         <div>
-                    <Resizeable direction="vertical">
-                <div style={{height: '100%', display: 'flex', flexDirection: 'row'}}>    
+            <Resizeable direction="vertical">
+                <div style={{height: 'cal(100%-10px)', display: 'flex', flexDirection: 'row'}}>    
                     <Resizeable direction="horizontal">
-                        <CodeEditor pass={(value) => setInput(value)}/>
+                        {/* <CodeEditor pass={(value) => setInput(value)}/> */} 
+                        < CodeEditor pass={(value) => updateCell(cell.id,value)}/>
                         {/* <textarea value={input} onChange={(e)=>{setInput(e.target.value )}}></textarea> */}        
                         {/* <button onClick={onClick} >submit</button> */}
                     </Resizeable>    
