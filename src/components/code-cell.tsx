@@ -45,11 +45,11 @@ const CodeCell :React.FC <CodeCellProps> =({cell})=>{
       
         <div>
             <Resizeable direction="vertical">
-                <div style={{height: 'cal(100%-10px)', display: 'flex', flexDirection: 'row'}}>    
+                <div style={{height: 'calc(100% - 10px)', display: 'flex', flexDirection: 'row'}}>    
                     <Resizeable direction="horizontal">
                         {/* <CodeEditor pass={(value) => setInput(value)}/> */} 
                         < CodeEditor pass={(value) => updateCell(cell.id,value)}/>
-                        {/* <textarea value={input} onChange={(e)=>{setInput(e.target.value )}}></textarea> */}        
+                        {/* <textarea value={input} onChsange={(e)=>{setInput(e.target.value )}}></textarea> */}        
                         {/* <button onClick={onClick} >submit</button> */}
                     </Resizeable>    
                     <Preview code={code} bundleError={err}/> 
