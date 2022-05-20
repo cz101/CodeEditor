@@ -1,4 +1,4 @@
-import './code-editor.css'
+import './code-cell.css'
 
 import React, { useEffect, useState} from "react";
 import CodeEditor from '../components/code-editor'
@@ -7,6 +7,8 @@ import bundle from '../bundle';
 import Resizeable from "./resizeable";
 import {Cell} from '../state'
 import {useAction} from '../hooks/use-actions'
+import {useTypedSelector} from '../hooks/use-typed-selector'
+import {useCumulativeCode} from '../hooks/use-cumulative-code'
 
 interface CodeCellProps{
 
@@ -16,11 +18,17 @@ interface CodeCellProps{
 const CodeCell :React.FC <CodeCellProps> =({cell})=>{
 
 
-    const [input, setInput] = useState('') // will remove by passing the cell 
-    const [err, setErr] = useState('')
-    const [code ,setCode] =useState('')
+     const [input, setInput] = useState('') // will remove by passing the cell 
+    // const [err, setErr] = useState('')
+    // const [code ,setCode] =useState('')
 
-    const {updateCell} = useAction()
+    const {updateCell, createBundel} = useAction()
+    const bundle =useTypedSelector((state)=>state.bundlecells[cell.id])
+    
+      const cumulativeCode = useCumulativeCode (cell.id)
+    console.log(cumulativeCode)
+    //console.log(bundle)
+
     /*auto compilie and output the results with timer setup */
     // useEffect(()=>{
     //     const timer= setTimeout(async ()=>{
@@ -34,9 +42,14 @@ const CodeCell :React.FC <CodeCellProps> =({cell})=>{
 
       const onClick =async() =>{
           console.log(cell.content)
-        const output =  await bundle(cell.content);
-        setCode(output.code)     
-        setErr(output.err)
+        // const output =  await bundle(cell.content);
+        // setCode(output.code)     
+        // setErr(output.err)
+
+        // createBundel(cell.id,cell.content)
+        createBundel(cell.id,cumulativeCode)
+
+
     }              
    
 
@@ -52,7 +65,9 @@ const CodeCell :React.FC <CodeCellProps> =({cell})=>{
                         {/* <textarea value={input} onChsange={(e)=>{setInput(e.target.value )}}></textarea> */}        
                         {/* <button onClick={onClick} >submit</button> */}
                     </Resizeable>    
-                    <Preview code={code} bundleError={err}/> 
+                    <div className="progress-wrapper">
+                    {bundle && <Preview code={bundle.data} bundleError={bundle.error}/> }
+                    </div>
                 </div>      
             </Resizeable>    
         </div>

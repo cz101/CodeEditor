@@ -39,9 +39,34 @@ export interface InsetCellAfterAction{
     };
 }
 
+
+export interface BundleStartAction{
+    type: ActionType.BUNDLE_START;
+    payload:{
+            cellId: string;
+    }
+    
+}
+
+/*payload is depends on the object from bnundle process */
+export interface BundleCompleteAction{
+
+    type: ActionType.BUNDLE_COMPLETE;
+    payload :{
+        cellId: string;  
+        bundle : {
+            code: string;
+            err: string;
+        }
+    }
+
+}
+
 export type Action= MoveCellAction 
                     | DeletCellAction 
                     | UpdateCellAction 
                     | InsetCellBeforeAction
-                    | InsetCellAfterAction ;
+                    | InsetCellAfterAction 
+                    | BundleStartAction
+                    | BundleCompleteAction;
 
