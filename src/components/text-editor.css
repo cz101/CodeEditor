@@ -29,3 +29,6 @@
 .card-content{
     padding: 2.1rem;
 }
+.text-editor .w-md-editor-text-input {
+    -webkit-text-fill-color :black
+}
